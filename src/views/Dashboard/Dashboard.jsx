@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 // react plugin for creating charts
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 //import Build from "@material-ui/icons/Build";
@@ -20,12 +23,17 @@ import CardIcon from "components/Card/CardIcon.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import Button from 'components/CustomButtons/Button.jsx';
+import Check from "@material-ui/icons/Check";
+
+import { envService } from '../../services/EnvService'
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
   statusBot = false;
   qntComandos = 7;
+
+  environments = envService.getEnvs()
 
   state = {
     value: 0
@@ -38,7 +46,12 @@ class Dashboard extends React.Component {
     this.setState({ value: index });
   };
   render() {
+    console.log(this.environments)
     const { classes } = this.props;
+    const wrapperDiv = classNames(
+      classes.checkboxAndRadio,
+      classes.checkboxAndRadioHorizontal
+    );
     return (
       <GridContainer>
         <GridItem xs={12} md={12} sm={12}>
@@ -180,6 +193,109 @@ class Dashboard extends React.Component {
             </CardBody>
             <CardFooter>
               <Button type="button" color="primary">Atualizar</Button>
+            </CardFooter>
+          </Card>
+        </GridItem>
+
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="success" stats icon>
+              <CardIcon color="success">
+                <Icon>fingerprint</Icon>
+              </CardIcon>
+              <p className={classes.cardCategory}>Commands</p>
+              <h3 className={classes.cardTitle}>Comandos disponíveis</h3>
+            </CardHeader>
+            <CardBody>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <h3>Comandos</h3>
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={12}>
+                      <div className={wrapperDiv}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              tabIndex={-1}
+                              onClick={() => this.handleChange("logs-container")}
+                              checkedIcon={<Check className={classes.checkedIcon} />}
+                              icon={<Check className={classes.uncheckedIcon} />}
+                              classes={{ checked: classes.checked }}
+                              checked="true"
+                            />
+                          }
+                          classes={{ label: classes.label }}
+                          label="logs-container"
+                        />
+
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              tabIndex={-1}
+                              onClick={() => this.handleChange("restart-container")}
+                              checkedIcon={<Check className={classes.checkedIcon} />}
+                              icon={<Check className={classes.uncheckedIcon} />}
+                              classes={{ checked: classes.checked }}
+                              checked="true"
+                            />
+                          }
+                          classes={{ label: classes.label }}
+                          label="restart-container"
+                        />
+
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              tabIndex={-1}
+                              onClick={() => this.handleChange("list-lb")}
+                              checkedIcon={<Check className={classes.checkedIcon} />}
+                              icon={<Check className={classes.uncheckedIcon} />}
+                              classes={{ checked: classes.checked }}
+                            />
+                          }
+                          classes={{ label: classes.label }}
+                          label="list-lb"
+                        />
+
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              tabIndex={-1}
+                              onClick={() => this.handleChange("disable-canary")}
+                              checkedIcon={<Check className={classes.checkedIcon} />}
+                              icon={<Check className={classes.uncheckedIcon} />}
+                              classes={{ checked: classes.checked }}
+                              checked="true"
+                            />
+                          }
+                          classes={{ label: classes.label }}
+                          label="disable-canary"
+                        />
+
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              tabIndex={-1}
+                              onClick={() => this.handleChange("disable-canary")}
+                              checkedIcon={<Check className={classes.checkedIcon} />}
+                              icon={<Check className={classes.uncheckedIcon} />}
+                              classes={{ checked: classes.checked }}
+                            />
+                          }
+                          classes={{ label: classes.label }}
+                          label="disable-canary"
+                        />
+                      </div>
+                    </GridItem>
+                  </GridContainer>
+                </GridItem>
+              </GridContainer>
+            </CardBody>
+            <CardFooter>
+              <Button color="primary">Atualizar</Button>
             </CardFooter>
           </Card>
         </GridItem>
